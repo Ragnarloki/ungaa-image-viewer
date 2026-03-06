@@ -204,7 +204,6 @@
       padding: 22px 24px;
       margin-bottom: 28px;
       box-shadow: var(--shadow-sm);
-      /* animation: fadeUp 0.4s 0.1s ease both; */
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
@@ -596,128 +595,6 @@
       font-size: 13px;
     }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(15, 20, 35, 0.5);
-      backdrop-filter: blur(4px);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-      animation: fadeIn 0.2s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .modal {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      max-width: 700px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      animation: modalIn 0.22s ease;
-    }
-
-    @keyframes modalIn {
-      from { transform: scale(0.96); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: var(--text);
-    }
-
-    .modal-close {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      border-radius: 7px;
-      border: 1px solid var(--border);
-      background: var(--white);
-      color: var(--muted);
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .modal-close:hover {
-      border-color: var(--red);
-      color: var(--red);
-      background: var(--red-light);
-    }
-
-    .modal-img {
-      width: 100%;
-      display: block;
-      max-height: 360px;
-      object-fit: contain;
-      background: var(--bg);
-    }
-
-    .modal-body {
-      padding: 20px 22px;
-    }
-
-    .detail-row {
-      display: flex;
-      gap: 16px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-    }
-
-    .detail-row:last-child {
-      border-bottom: none;
-    }
-
-    .detail-label {
-      min-width: 110px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--muted);
-      font-style: italic;
-      padding-top: 1px;
-    }
-
-    .detail-value {
-      color: var(--text);
-      word-break: break-all;
-      line-height: 1.5;
-    }
-
-    .modal-footer {
-      padding: 14px 22px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: flex-end;
-      background: var(--bg);
-      border-radius: 0 0 14px 14px;
-    }
-
     /* ─── USER SEARCH DROPDOWN ───────────────────────────────────── */
 
     .user-search-wrapper {
@@ -805,7 +682,7 @@
     }
 
     .user-dropdown-list {
-      max-height: 175px; /* shows ~5 items, scrolls beyond */
+      max-height: 175px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--border-dark) transparent;
@@ -879,10 +756,6 @@
       .controls { grid-template-columns: repeat(2, 1fr); padding: 16px; gap: 12px; }
       .image-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
       .results-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .modal-overlay { padding: 16px; align-items: flex-end; }
-      .modal { border-radius: 14px 14px 0 0; max-height: 92vh; }
-      .detail-row { flex-direction: column; gap: 4px; }
-      .detail-label { min-width: unset; }
       .pagination { gap: 4px; margin-top: 28px; }
       .page-btn { width: 34px; height: 34px; font-size: 12px; }
     }
@@ -906,10 +779,6 @@
       .btn-row { flex-direction: column; }
       .btn-row .btn { width: 100%; text-align: center; }
       .card-img, .card-img-placeholder { height: 140px; }
-      .modal-body { padding: 16px 14px; }
-      .modal-header { padding: 14px 16px; }
-      .modal-footer { padding: 12px 16px; }
-      .modal-title { font-size: 15px; }
       .page-btn { width: 30px; height: 30px; font-size: 11px; }
       .page-ellipsis { width: 24px; }
       .empty-state { padding: 50px 0; }
@@ -959,9 +828,7 @@
 
       <div class="field">
         <label>Filter by User</label>
-        <!-- Hidden value holder used by fetchImages() -->
         <input type="hidden" id="userFilter" value="" />
-        <!-- Custom searchable dropdown replaces the old <select> -->
         <div class="user-search-wrapper" id="userSearchWrapper">
           <button
             type="button"
@@ -1046,27 +913,6 @@
 
   </div>
 
-  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-    <div class="modal">
-
-      <div class="modal-header">
-        <div class="modal-title" id="modalTitle">Image Detail</div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-
-      <img class="modal-img" id="modalImg" src="" alt="Preview" onerror="this.style.display='none'" />
-
-      <div class="modal-body" id="modalBody"></div>
-
-      <div class="modal-footer">
-        <a id="modalOpenLink" href="#" target="_blank" class="btn btn-primary" style="text-decoration: none;">
-          Open Image ↗
-        </a>
-      </div>
-
-    </div>
-  </div>
-
   <script>
 
     const API_BASE = 'https://kfmfrs5sc4.execute-api.us-east-1.amazonaws.com';
@@ -1149,7 +995,6 @@
 
       list.innerHTML = '';
 
-      // "All Users" option
       var allItem = document.createElement('div');
       allItem.className = 'user-dropdown-item' + (selectedId === '' ? ' selected' : '');
       allItem.textContent = 'All Users';
@@ -1327,7 +1172,7 @@
             <div class="card-divider"></div>
             <div class="card-actions">
               <a class="card-btn open-link" href="${img.secure_url}" target="_blank">Open ↗</a>
-              <button class="card-btn" onclick="openModal(${imgJsonSafe})">Details</button>
+              <button class="card-btn" onclick="openDetailPopup(${imgJsonSafe})">Details</button>
             </div>
           </div>
         `;
@@ -1337,6 +1182,295 @@
       });
 
     }
+
+    // ─── POPUP WINDOW ─────────────────────────────────────────────
+
+    function openDetailPopup(img) {
+
+      const formattedDate = img.created_at
+        ? new Date(img.created_at).toLocaleString(undefined, {
+            dateStyle: 'long',
+            timeStyle: 'medium'
+          })
+        : '—';
+
+      const isImage =
+        img.mime_type && img.mime_type.startsWith('image/') ||
+        /\.(jpg|jpeg|png|webp|gif)$/i.test(img.secure_url || '');
+
+      const popupWidth  = 680;
+      const popupHeight = 620;
+      const left = Math.round(window.screenX + (window.outerWidth  - popupWidth)  / 2);
+      const top  = Math.round(window.screenY + (window.outerHeight - popupHeight) / 2);
+
+      const popup = window.open(
+        '',
+        'ImageDetail_' + img.search_word_image_id,
+        `width=${popupWidth},height=${popupHeight},left=${left},top=${top},` +
+        'resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no'
+      );
+
+      if (!popup) {
+        alert('Popup blocked! Please allow popups for this site and try again.');
+        return;
+      }
+
+      popup.document.open();
+      popup.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image #${img.search_word_image_id} — Details</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff;
+      --bg: #f4f6f9;
+      --border: #e2e6ed;
+      --text: #1a1f2e;
+      --muted: #6b7385;
+      --green: #16a34a;
+      --green-light: #dcfce7;
+      --green-mid: #22c55e;
+      --red: #dc2626;
+      --red-light: #fee2e2;
+      --blue: #2563eb;
+      --blue-light: #dbeafe;
+      --font: 'Times New Roman', Times, serif;
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.13);
+    }
+    body {
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, #c8d0dd 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .popup-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0;
+    }
+    .popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      gap: 12px;
+    }
+    .popup-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .popup-logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--green-mid);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+    .popup-logo span { color: var(--green); }
+    .popup-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text);
+    }
+    .popup-close {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .popup-close:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-light);
+    }
+    .popup-ribbon {
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-mid), var(--green));
+      flex-shrink: 0;
+    }
+    .popup-img-wrap {
+      background: #e8ecf0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 240px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .popup-img {
+      max-width: 100%;
+      max-height: 240px;
+      object-fit: contain;
+      display: block;
+    }
+    .popup-img-placeholder {
+      font-size: 52px;
+      opacity: 0.35;
+    }
+    .popup-body {
+      padding: 18px 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .detail-row {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label {
+      min-width: 100px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      font-style: italic;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+    .detail-value {
+      color: var(--text);
+      word-break: break-all;
+      line-height: 1.5;
+    }
+    .mime-chip {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--blue-light);
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .popup-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .btn {
+      padding: 8px 18px;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: bold;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--green-mid);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(34,197,94,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--green);
+    }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--muted);
+      border: 1px solid #c9d0db;
+    }
+    .btn-secondary:hover {
+      color: var(--text);
+      border-color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-wrap">
+    <div class="popup-header">
+      <div class="popup-logo">
+        <div class="popup-logo-icon">🔍</div>
+        Ungaa <span>Images</span>
+      </div>
+      <div class="popup-title">Image #${img.search_word_image_id}</div>
+      <button class="popup-close" onclick="window.close()">✕</button>
+    </div>
+    <div class="popup-ribbon"></div>
+    <div class="popup-img-wrap">
+      ${isImage
+        ? `<img class="popup-img" src="${img.secure_url}" alt="Image ${img.search_word_image_id}" onerror="this.outerHTML='<div class=popup-img-placeholder>🖼️</div>'" />`
+        : `<div class="popup-img-placeholder">📄</div>`
+      }
+    </div>
+    <div class="popup-body">
+      <div class="detail-row">
+        <div class="detail-label">Image ID</div>
+        <div class="detail-value">#${img.search_word_image_id}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">MIME Type</div>
+        <div class="detail-value">
+          <span class="mime-chip">${(img.mime_type || 'unknown').split('/')[1] || img.mime_type || 'unknown'}</span>
+          &nbsp;${img.mime_type || '—'}
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Created At</div>
+        <div class="detail-value">${formattedDate}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">URL</div>
+        <div class="detail-value" style="font-size: 12px; color: var(--muted);">${img.secure_url}</div>
+      </div>
+    </div>
+    <div class="popup-footer">
+      <button class="btn btn-secondary" onclick="window.close()">Close</button>
+      <a class="btn btn-primary" href="${img.secure_url}" target="_blank">Open Image ↗</a>
+    </div>
+  </div>
+</body>
+</html>`);
+      popup.document.close();
+    }
+
+    // ─── PAGINATION ───────────────────────────────────────────────
 
     function renderPagination(total, page, limit) {
 
@@ -1391,70 +1525,8 @@
       return Array.from({ length: end - start + 1 }, function (_, i) { return start + i; });
     }
 
-    function openModal(img) {
-
-      document.getElementById('modalTitle').textContent = 'Image #' + img.search_word_image_id;
-
-      const modalImg = document.getElementById('modalImg');
-      if (img.mime_type && img.mime_type.startsWith('image/')) {
-        modalImg.src = img.secure_url;
-        modalImg.style.display = 'block';
-      } else {
-        modalImg.style.display = 'none';
-      }
-
-      const formattedDate = img.created_at
-        ? new Date(img.created_at).toLocaleString(undefined, {
-          dateStyle: 'long',
-          timeStyle: 'medium'
-        })
-        : '—';
-
-      document.getElementById('modalBody').innerHTML = `
-        <div class="detail-row">
-          <div class="detail-label">Image ID</div>
-          <div class="detail-value">#${img.search_word_image_id}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">MIME Type</div>
-          <div class="detail-value">${img.mime_type || '—'}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Created At</div>
-          <div class="detail-value">${formattedDate}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">URL</div>
-          <div class="detail-value" style="font-size: 12px; color: var(--muted);">
-            ${img.secure_url}
-          </div>
-        </div>
-      `;
-
-      document.getElementById('modalOpenLink').href = img.secure_url;
-      document.getElementById('modalOverlay').classList.add('active');
-      document.body.style.overflow = 'hidden';
-
-    }
-
-    function handleOverlayClick(event) {
-      if (event.target === document.getElementById('modalOverlay')) {
-        closeModal();
-      }
-    }
-
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeModal();
-    });
-
     function resetFilters() {
       document.getElementById('wordDetected').value = '1';
-      // Reset custom user dropdown
       document.getElementById('userFilter').value = '';
       document.getElementById('userSearchTrigger').textContent = 'All Users';
       document.getElementById('fromDate').value = '';
@@ -1483,5 +1555,4 @@
   </script>
 
 </body>
-
 </html>
