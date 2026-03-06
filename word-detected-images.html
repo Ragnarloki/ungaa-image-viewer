@@ -204,11 +204,13 @@
       padding: 22px 24px;
       margin-bottom: 28px;
       box-shadow: var(--shadow-sm);
-      animation: fadeUp 0.4s 0.1s ease both;
+      /* animation: fadeUp 0.4s 0.1s ease both; */
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
       align-items: end;
+      position: relative;
+      overflow: visible;
     }
 
     .field {
@@ -716,11 +718,202 @@
       border-radius: 0 0 14px 14px;
     }
 
+    /* ─── USER SEARCH DROPDOWN ───────────────────────────────────── */
+
+    .user-search-wrapper {
+      position: relative;
+    }
+
+    .user-search-trigger {
+      width: 100%;
+      padding: 9px 32px 9px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-search-trigger:focus,
+    .user-search-wrapper.open .user-search-trigger {
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+    }
+
+    .user-search-arrow {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--muted);
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+
+    .user-search-wrapper.open .user-search-arrow {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      box-shadow: var(--shadow-md);
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .user-dropdown.open {
+      display: block;
+    }
+
+    .user-dropdown-search {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .user-dropdown-search input {
+      width: 100%;
+      padding: 6px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .user-dropdown-search input:focus {
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+    }
+
+    .user-dropdown-list {
+      max-height: 175px; /* shows ~5 items, scrolls beyond */
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-dark) transparent;
+    }
+
+    .user-dropdown-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .user-dropdown-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .user-dropdown-list::-webkit-scrollbar-thumb {
+      background: var(--border-dark);
+      border-radius: 10px;
+    }
+
+    .user-dropdown-item {
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .user-dropdown-item:hover {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .user-dropdown-item.selected {
+      background: var(--green-light);
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .user-dropdown-item.no-results {
+      color: var(--muted);
+      font-style: italic;
+      cursor: default;
+    }
+
+    .user-dropdown-item.no-results:hover {
+      background: transparent;
+      color: var(--muted);
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+
+    @media (max-width: 1024px) {
+      .image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      .controls {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 48px; }
+      header { margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+      .logo { font-size: 18px; letter-spacing: 1px; }
+      .logo-icon { width: 34px; height: 34px; font-size: 16px; }
+      .page-title { font-size: 26px; }
+      .controls { grid-template-columns: repeat(2, 1fr); padding: 16px; gap: 12px; }
+      .image-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+      .results-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .modal-overlay { padding: 16px; align-items: flex-end; }
+      .modal { border-radius: 14px 14px 0 0; max-height: 92vh; }
+      .detail-row { flex-direction: column; gap: 4px; }
+      .detail-label { min-width: unset; }
+      .pagination { gap: 4px; margin-top: 28px; }
+      .page-btn { width: 34px; height: 34px; font-size: 12px; }
+    }
+
     @media (max-width: 620px) {
       .page-title { font-size: 24px; }
       .controls { grid-template-columns: 1fr; }
       .image-grid { grid-template-columns: 1fr; }
       .header-right .user-pill { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .page { padding: 0 12px 40px; }
+      .logo { font-size: 15px; gap: 8px; letter-spacing: 0.5px; }
+      .logo-icon { width: 30px; height: 30px; font-size: 14px; }
+      .logout-btn { padding: 7px 10px; font-size: 12px; }
+      .page-title { font-size: 20px; }
+      .page-subtitle { font-size: 12px; }
+      .controls { padding: 14px 12px; gap: 10px; }
+      .btn { padding: 9px 14px; font-size: 13px; }
+      .btn-row { flex-direction: column; }
+      .btn-row .btn { width: 100%; text-align: center; }
+      .card-img, .card-img-placeholder { height: 140px; }
+      .modal-body { padding: 16px 14px; }
+      .modal-header { padding: 14px 16px; }
+      .modal-footer { padding: 12px 16px; }
+      .modal-title { font-size: 15px; }
+      .page-btn { width: 30px; height: 30px; font-size: 11px; }
+      .page-ellipsis { width: 24px; }
+      .empty-state { padding: 50px 0; }
+      .loading-state { padding: 50px 0; }
     }
 
   </style>
@@ -766,9 +959,30 @@
 
       <div class="field">
         <label>Filter by User</label>
-        <select id="userFilter">
-          <option value="">All Users</option>
-        </select>
+        <!-- Hidden value holder used by fetchImages() -->
+        <input type="hidden" id="userFilter" value="" />
+        <!-- Custom searchable dropdown replaces the old <select> -->
+        <div class="user-search-wrapper" id="userSearchWrapper">
+          <button
+            type="button"
+            class="user-search-trigger"
+            id="userSearchTrigger"
+            onclick="toggleUserDropdown()"
+          >All Users</button>
+          <span class="user-search-arrow">▼</span>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-search">
+              <input
+                type="text"
+                id="userDropdownSearch"
+                placeholder="Search name…"
+                oninput="filterUserList(this.value)"
+                onclick="event.stopPropagation()"
+              />
+            </div>
+            <div class="user-dropdown-list" id="userDropdownList"></div>
+          </div>
+        </div>
       </div>
 
       <div class="field">
@@ -855,7 +1069,10 @@
 
   <script>
 
-    const API_BASE = 'http://localhost:3000';
+    const API_BASE = 'https://kfmfrs5sc4.execute-api.us-east-1.amazonaws.com';
+
+    // ─── USER DROPDOWN STATE ──────────────────────────────────────
+    var allUsers = [];
 
     window.addEventListener('DOMContentLoaded', function () {
 
@@ -875,6 +1092,14 @@
 
       loadUserDropdown();
 
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function (e) {
+      var wrapper = document.getElementById('userSearchWrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeUserDropdown();
+      }
     });
 
     function getStoredToken() {
@@ -905,19 +1130,79 @@
 
         if (!response.ok || data.isErr || !data.data) return;
 
-        const select = document.getElementById('userFilter');
-
-        data.data.forEach(function (user) {
-          const option = document.createElement('option');
-          option.value = user.user_id;
-          option.textContent = user.user_name;
-          select.appendChild(option);
-        });
+        allUsers = data.data;
+        renderUserList('');
 
       } catch (e) {
         // silently fail — user filter is optional
       }
 
+    }
+
+    function renderUserList(query) {
+      var list = document.getElementById('userDropdownList');
+      var selectedId = document.getElementById('userFilter').value;
+
+      var filtered = allUsers.filter(function (u) {
+        return u.user_name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      });
+
+      list.innerHTML = '';
+
+      // "All Users" option
+      var allItem = document.createElement('div');
+      allItem.className = 'user-dropdown-item' + (selectedId === '' ? ' selected' : '');
+      allItem.textContent = 'All Users';
+      allItem.onclick = function () { selectUser('', 'All Users'); };
+      list.appendChild(allItem);
+
+      if (filtered.length === 0) {
+        var noItem = document.createElement('div');
+        noItem.className = 'user-dropdown-item no-results';
+        noItem.textContent = 'No users found';
+        list.appendChild(noItem);
+        return;
+      }
+
+      filtered.forEach(function (user) {
+        var item = document.createElement('div');
+        item.className = 'user-dropdown-item' + (user.user_id === selectedId ? ' selected' : '');
+        item.textContent = user.user_name;
+        item.onclick = function () { selectUser(user.user_id, user.user_name); };
+        list.appendChild(item);
+      });
+    }
+
+    function toggleUserDropdown() {
+      var wrapper = document.getElementById('userSearchWrapper');
+      var dropdown = document.getElementById('userDropdown');
+      var isOpen = dropdown.classList.contains('open');
+      if (isOpen) {
+        closeUserDropdown();
+      } else {
+        wrapper.classList.add('open');
+        dropdown.classList.add('open');
+        document.getElementById('userDropdownSearch').value = '';
+        renderUserList('');
+        setTimeout(function () {
+          document.getElementById('userDropdownSearch').focus();
+        }, 50);
+      }
+    }
+
+    function closeUserDropdown() {
+      document.getElementById('userSearchWrapper').classList.remove('open');
+      document.getElementById('userDropdown').classList.remove('open');
+    }
+
+    function filterUserList(query) {
+      renderUserList(query);
+    }
+
+    function selectUser(userId, userName) {
+      document.getElementById('userFilter').value = userId;
+      document.getElementById('userSearchTrigger').textContent = userName;
+      closeUserDropdown();
     }
 
     async function fetchImages(page) {
@@ -1169,7 +1454,9 @@
 
     function resetFilters() {
       document.getElementById('wordDetected').value = '1';
+      // Reset custom user dropdown
       document.getElementById('userFilter').value = '';
+      document.getElementById('userSearchTrigger').textContent = 'All Users';
       document.getElementById('fromDate').value = '';
       document.getElementById('toDate').value = '';
       document.getElementById('limitSelect').value = '12';

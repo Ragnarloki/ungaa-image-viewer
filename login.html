@@ -300,6 +300,79 @@
       animation: shake 0.4s ease;
     }
 
+    /* ── Responsive ── */
+
+    /* Tablet: hide illustration, keep two-column layout */
+    @media (max-width: 900px) {
+      .left-panel {
+        padding: 36px 32px;
+      }
+
+      .left-panel > div[style] {
+        display: none !important;
+      }
+
+      .right-panel {
+        padding: 32px 24px;
+      }
+    }
+
+    /* Mobile: single-column, form only */
+    @media (max-width: 640px) {
+      html, body {
+        overflow: auto;
+        height: auto;
+        min-height: 100%;
+      }
+
+      .page {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .left-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 20px 24px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        animation: fadeLeft 0.6s ease both;
+      }
+
+      .left-panel > div[style] {
+        display: none !important;
+      }
+
+      .right-panel {
+        align-items: flex-start;
+        padding: 32px 20px 48px;
+        animation: fadeRight 0.6s 0.1s ease both;
+      }
+
+      .login-card {
+        padding: 32px 24px;
+        border-radius: 14px;
+      }
+
+      .login-heading {
+        font-size: 24px;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 380px) {
+      .login-card {
+        padding: 28px 18px;
+      }
+
+      .brand-name {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 
@@ -362,7 +435,7 @@
 
   <script>
 
-    const API_BASE = 'http://localhost:3000';
+    const API_BASE = 'https://kfmfrs5sc4.execute-api.us-east-1.amazonaws.com';
 
     window.addEventListener('DOMContentLoaded', function () {
       const existingToken = localStorage.getItem('scanviz_token')
