@@ -1079,7 +1079,7 @@
       const token = getStoredToken();
 
       if (!token) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
       }
 
@@ -1113,7 +1113,7 @@
       sessionStorage.removeItem('scanviz_email');
       localStorage.removeItem('scanviz_token');
       localStorage.removeItem('scanviz_email');
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
     }
 
     async function loadUserDropdown() {
